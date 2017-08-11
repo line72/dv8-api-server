@@ -13,4 +13,18 @@ class RouteMapper extends Mapper {
 
         return $results;
     }
+
+    public function getRouteById($route_id) {
+        $sql = "SELECT r.id, r.rId, r.name
+            FROM routes r
+            WHERE r.id = :route_id";
+        $stmt = $this->db->prepare($sql);
+        $result = $stmt->execute(["route_id" => $route_id]);
+
+        if ($result) {
+            return new Route($stmt->fetch());
+        }
+
+        return null;
+    }
 }
