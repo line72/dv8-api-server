@@ -1,0 +1,14 @@
+{
+    "require" : {
+        "slim/slim": "^3.0",
+        "monolog/monolog": "^1.23"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "classes/"
+        }
+    },
+    "scripts": {
+        "start": "php -S localhost:8080 -t public public/index.php"
+    }
+}
