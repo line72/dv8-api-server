@@ -7,7 +7,7 @@ return [
         // Monolog settings
         'logger' => [
             'name' => 'dv8',
-            'path' => __DIR__ . '/../dv8.log',
+            'path' => __DIR__ . '/../../dv8.log',
             'level' => \Monolog\Logger::DEBUG,
         ],
     ],
