@@ -11,6 +11,7 @@ class WayPoint {
     protected $direction;
     protected $driver;
     protected $trip_id;
+    protected $trip;
 
     public function __construct(array $data) {
         if (isset($data['id'])) {
@@ -26,6 +27,12 @@ class WayPoint {
         $this->direction = $data['direction'];
         $this->driver = $data['driver'];
         $this->trip_id = $data['trip_id'];
+
+        $this->trip = null;
+    }
+
+    public function addTrip($trip) {
+        $this->trip = $trip;
     }
 
     public function toArray() {
@@ -39,7 +46,11 @@ class WayPoint {
                       'direction' => $this->direction,
                       'driver' => $this->driver,
                       'trip_id' => $this->trip_id);
+
+        if ($this->trip != null) {
+            $data['trip'] = $this->trip->toArray();
+        }
+        
         return $data;
-                      
     }
 }
