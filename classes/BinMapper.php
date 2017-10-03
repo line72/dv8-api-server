@@ -14,7 +14,7 @@ class BinMapper extends Mapper {
         $interval = new DateInterval("PT" . $bin_size . "S");
         $current_date = clone $start_date;
 
-        $sql = "SELECT w.date AS date, w.onBoard, w.trip_id,
+        $sql = "SELECT w.date AS date, w.onBoard, w.deviation, w.trip_id,
                        t.id AS tripId, t.tId, t.name, t.runId, t.route_id,\n";
         $sql .= "  CASE\n";
         $index = 0;
@@ -35,7 +35,9 @@ class BinMapper extends Mapper {
             $index += 1;
         }
         $sql .= "    ELSE \"_\"\n";
-        $sql .= "  END as bin, COUNT(date) AS total, MAX(w.onBoard) as onBoardMax\n";
+        $sql .= "  END as bin, COUNT(date) AS total,\n";
+        $sql .= "  MAX(w.onBoard) as onBoardMax, MIN(w.onBoard) as onBoardMin, AVG(w.onBoard) AS onBoardAvg, \n";
+        $sql .= "  MAX(w.deviation) as deviationMax, MIN(w.deviation) as deviationMin, AVG(w.deviation) AS deviationAvg\n";
         $sql .= "FROM waypoints w\n";
         $sql .= "LEFT JOIN trips t\n";
         $sql .= "WHERE\n";

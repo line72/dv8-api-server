@@ -149,6 +149,10 @@ $app->get('/binner/waypoints', function($request, $response, $args) {
     $start_date = new DateTime($params['start_date']);
     $end_date = new DateTime($params['end_date']);
 
+    if ($end_date <= $start_date) {
+        return $response->withStatus(400)->withJson(array('error' => 'end_date must be later than start_date'));
+    }
+    
     if (key_exists('bin_size', $params)) {
         $bin_size = (int)$params['bin_size'];
         if ($bin_size < 0) {
