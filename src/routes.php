@@ -122,3 +122,43 @@ $app->get('/waypoints', function($request, $response, $args) {
         return $n->toArray();
     }, $waypoints));
 });
+
+$app->get('/binner/waypoints', function($request, $response, $args) {
+    $mapper = new BinMapper($this->db);
+
+    // check for some optional args:
+    // start_date
+    // end_data
+    // limit
+    // page
+    // whether or not to bin the results
+    // the size of each bin in seconds
+    $start_date = null;
+    $end_date = null;
+    $bin_size = 60 * 60; // default to 1 hour
+    
+    $params = $request->getQueryParams();
+
+    if (!key_exists('start_date', $params)) {
+        return $response->withStatus(400)->withJson(array('error' => 'Missing start_date'));
+    }
+    if (!key_exists('end_date', $params)) {
+        return $response->withStatus(400)->withJson(array('error' => 'Missing end_date'));
+    }
+    
+    $start_date = new DateTime($params['start_date']);
+    $end_date = new DateTime($params['end_date']);
+
+    if (key_exists('bin_size', $params)) {
+        $bin_size = (int)$params['bin_size'];
+        if ($bin_size < 0) {
+            $bin_size = 60 * 5; // default back to 5 minutes
+        }
+    }
+
+    $waypoints = $mapper->getWayPoints($start_date, $end_date, $bin_size);
+
+    return $response->withJson(array_map(function($n) {
+        return $n->toArray();
+    }, $waypoints));
+});
