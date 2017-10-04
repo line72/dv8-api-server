@@ -26,7 +26,7 @@ class BinMapper extends Mapper {
             $var2 = "date_" . ($index + 1);
             
             $sql .= "    WHEN date >= :" . $var1;
-            $sql .= " AND date < :" . $var2 . " THEN \"". $index . "\"\n";
+            $sql .= " AND date < :" . $var2 . " THEN ". $index . "\n";
             
             $params[$var1] = $current_date->format('Y-m-d H:i:s.u');
             $params[$var2] = $next_date->format('Y-m-d H:i:s.u');

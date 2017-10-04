@@ -15,7 +15,7 @@ class WayPointBin {
     protected $trip;
 
     public function __construct(array $data) {
-        $this->name = $data['bin'];
+        $this->name = (int)$data['bin'];
         $this->total = $data['total'];
         $this->on_board_max = $data['onBoardMax'];
         $this->on_board_min = $data['onBoardMin'];
